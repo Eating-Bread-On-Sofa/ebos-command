@@ -23,8 +23,8 @@ public class CommandController {
     @Value("${server.edgex}")
     private String ip;
 
+    @CrossOrigin
     @GetMapping("/list")
-    @ResponseBody
     public JSONArray checkCommand(){
         String allUrl = "http://"+ip+":48082/api/v1/device";
         JSONArray commands = new JSONArray();
@@ -48,8 +48,8 @@ public class CommandController {
         return commands;
     }
 
+    @CrossOrigin
     @PostMapping()
-    @ResponseBody
     public String add(@RequestBody JSONObject info){
         boolean flag = commandService.addCommand(info);
         if(flag){
@@ -59,15 +59,15 @@ public class CommandController {
         }
     }
 
+    @CrossOrigin
     @DeleteMapping()
-    @ResponseBody
     public boolean delete(@RequestParam String name){
         boolean flag = commandService.deleteCommand(name);
         return flag;
     }
 
+    @CrossOrigin
     @GetMapping()
-    @ResponseBody
     public LayuiTableResultUtil<JSONArray> show(){
         JSONArray table = commandService.showAll();
         return new LayuiTableResultUtil<JSONArray>("",table,0,table.size());
@@ -91,6 +91,7 @@ public class CommandController {
         }
     }
 
+    @CrossOrigin
     @GetMapping("/{name}")
     public void sendTest(@PathVariable String name){
         JSONObject jsonCommand = new JSONObject();
@@ -118,6 +119,7 @@ public class CommandController {
         }
     }
 
+    @CrossOrigin
     @GetMapping("/ping")
     public String ping(){
         return "pong";
