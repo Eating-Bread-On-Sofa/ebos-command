@@ -11,9 +11,9 @@ import org.springframework.jms.annotation.JmsListener;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-@RequestMapping("/api/scenario")
+@RequestMapping("/api/command")
 @RestController
-public class ScenarioController {
+public class CommandController {
     @Autowired
     RestTemplate restTemplate;
     @Autowired
@@ -48,7 +48,7 @@ public class ScenarioController {
         return commands;
     }
 
-    @PostMapping("/command")
+    @PostMapping()
     @ResponseBody
     public String add(@RequestBody JSONObject info){
         boolean flag = commandService.addCommand(info);
@@ -59,16 +59,16 @@ public class ScenarioController {
         }
     }
 
-    @DeleteMapping("/command")
+    @DeleteMapping()
     @ResponseBody
     public boolean delete(@RequestParam String name){
         boolean flag = commandService.deleteCommand(name);
         return flag;
     }
 
-    @GetMapping("/command")
+    @GetMapping()
     @ResponseBody
-    public LayuiTableResultUtil<JSONArray> show(@RequestParam Integer page, @RequestParam Integer limit){
+    public LayuiTableResultUtil<JSONArray> show(){
         JSONArray table = commandService.showAll();
         return new LayuiTableResultUtil<JSONArray>("",table,0,table.size());
     }
@@ -91,8 +91,8 @@ public class ScenarioController {
         }
     }
 
-    @GetMapping("/test")
-    public void sendTest(@RequestParam String name){
+    @GetMapping("/{name}")
+    public void sendTest(@PathVariable String name){
         JSONObject jsonCommand = new JSONObject();
         jsonCommand.put("name",name);
         mqService.publish("run.command",jsonCommand);
