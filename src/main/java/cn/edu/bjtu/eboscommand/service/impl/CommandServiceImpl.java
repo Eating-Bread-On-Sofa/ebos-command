@@ -103,12 +103,12 @@ public class CommandServiceImpl implements CommandService {
             case "get":
                 try {
                     JSONObject getObj = new JSONObject(restTemplate.getForObject(url, JSONObject.class));
-                    mqProducer.publish("show",getObj.toString());
+                    mqProducer.publish("command.result",getObj.toString());
                 } catch (Exception e) {
                     JSONObject err = new JSONObject();
                     err.put("name",command.getString("name"));
                     err.put("alert","失败！");
-                    mqProducer.publish("show",err.toString());
+                    mqProducer.publish("command.result",err.toString());
                 }
                 break;
             case "put":
