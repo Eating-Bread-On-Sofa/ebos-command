@@ -8,4 +8,5 @@ public interface CommandService {
     boolean deleteCommand(String name);
     JSONArray showAll();
     JSONObject find(String name);
+    void sendCommand(JSONObject command);
 }

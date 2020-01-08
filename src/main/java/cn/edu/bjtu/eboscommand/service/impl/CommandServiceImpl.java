@@ -1,12 +1,16 @@
 package cn.edu.bjtu.eboscommand.service.impl;
 
+import cn.edu.bjtu.eboscommand.service.MqFactory;
+import cn.edu.bjtu.eboscommand.service.MqProducer;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import cn.edu.bjtu.eboscommand.dao.CommandRepository;
 import cn.edu.bjtu.eboscommand.entity.Command;
 import cn.edu.bjtu.eboscommand.service.CommandService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -14,6 +18,12 @@ import java.util.List;
 public class CommandServiceImpl implements CommandService {
     @Autowired
     CommandRepository commandRepository;
+    @Autowired
+    RestTemplate restTemplate;
+    @Autowired
+    MqFactory mqFactory;
+    @Value("${server.edgex}")
+    private String ip;
 
     @Override
     public boolean addCommand(JSONObject info){
@@ -83,5 +93,27 @@ public class CommandServiceImpl implements CommandService {
         command.put("level",find.getLevel());
         command.put("description",find.getDescription());
         return command;
+    }
+
+    @Override
+    public void sendCommand(JSONObject command){
+        String url = "http://"+ip+":48082/api/v1/device/" + command.getString("deviceId")+ "/command/" + command.getString("commandId");
+        MqProducer mqProducer = mqFactory.createProducer();
+        switch (command.getString("commandType")){
+            case "get":
+                try {
+                    JSONObject getObj = new JSONObject(restTemplate.getForObject(url, JSONObject.class));
+                    mqProducer.publish("show",getObj.toString());
+                } catch (Exception e) {
+                    JSONObject err = new JSONObject();
+                    err.put("name",command.getString("name"));
+                    err.put("alert","失败！");
+                    mqProducer.publish("show",err.toString());
+                }
+                break;
+            case "put":
+                restTemplate.put(url,command.getJSONObject("jsonObject"), String.class);
+                break;
+        }
     }
 }
