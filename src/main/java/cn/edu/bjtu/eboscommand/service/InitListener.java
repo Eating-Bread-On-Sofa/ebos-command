@@ -22,27 +22,25 @@ public class InitListener implements ApplicationRunner {
     private String name;
 
     @Override
-    public void run(ApplicationArguments arguments){
+    public void run(ApplicationArguments arguments) {
         new Thread(() -> {
             MqConsumer mqConsumer = mqFactory.createConsumer("run.command");
             while (true) {
-                try {
-                    JSONObject msg = JSON.parseObject(mqConsumer.subscribe());
-                    System.out.println("收到：" + msg);
-                    JSONObject fullMsg = commandService.find(msg.getString("name"));
-                    switch (fullMsg.getIntValue("level")){
-                        case 1:
-                            commandService.sendCommand(fullMsg);
-                            break;
-                        case 2:
-                            JSONArray array = fullMsg.getJSONArray("jsonArray");
-                            for(int i = 0; i < array.size(); i++){
-                                JSONObject subMsg = commandService.find(array.getJSONObject(i).getString("name"));
-                                commandService.sendCommand(subMsg);
-                            }
-                            break;
-                    }
-                }catch (Exception e){}
+                JSONObject msg = JSON.parseObject(mqConsumer.subscribe());
+                System.out.println("收到：" + msg);
+                JSONObject fullMsg = commandService.find(msg.getString("name"));
+                switch (fullMsg.getIntValue("level")) {
+                    case 1:
+                        commandService.sendCommand(fullMsg);
+                        break;
+                    case 2:
+                        JSONArray array = fullMsg.getJSONArray("jsonArray");
+                        for (int i = 0; i < array.size(); i++) {
+                            JSONObject subMsg = commandService.find(array.getJSONObject(i).getString("name"));
+                            commandService.sendCommand(subMsg);
+                        }
+                        break;
+                }
             }
         }).start();
     }
