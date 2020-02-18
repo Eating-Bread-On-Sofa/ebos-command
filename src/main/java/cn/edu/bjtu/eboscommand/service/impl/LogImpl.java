@@ -6,8 +6,8 @@ import org.apache.logging.log4j.Logger;
 import java.io.*;
 
 public class LogImpl {
-    public static String top = "";
-    private static Logger log = LogManager.getLogger();
+    private static String top = "";
+    private static final Logger log = LogManager.getLogger(LogImpl.class);
     public static void trace(String message) {
         if (log.isTraceEnabled()) {
             getTop();
@@ -80,35 +80,34 @@ public class LogImpl {
             log.fatal(top + "-" + message, e);
         }
     }
-    public static void getTop() {
+    private static void getTop() {
         // 获取堆栈信息
         StackTraceElement[] callStack = Thread.currentThread().getStackTrace();
-        if (callStack == null) {
-            top = "";
-        }
-        else {
-            // 最原始被调用的堆栈信息
-            StackTraceElement caller = null;
-            // 日志类名称
-            String logClassName = Logger.class.getName();
-            // 循环遍历到日志类标识
-            boolean isEachLogClass = false;
-            // 遍历堆栈信息，获取出最原始被调用的方法信息
-            for (StackTraceElement s : callStack) {
-                // 遍历到日志类
-                if (logClassName.equals(s.getClassName())) {
-                    isEachLogClass = true;
-                }
-                // 下一个非日志类的堆栈，就是最原始被调用的方法
-                if (isEachLogClass) {
-                    if (!logClassName.equals(s.getClassName())) {
-                        isEachLogClass = false;
-                        caller = s;
-                        break;
-                    }
+        // 最原始被调用的堆栈信息
+        StackTraceElement caller = null;
+        // 日志类名称
+        String logClassName = LogImpl.class.getName();
+        // 循环遍历到日志类标识
+        boolean isEachLogClass = false;
+        // 遍历堆栈信息，获取出最原始被调用的方法信息
+        for (StackTraceElement s : callStack) {
+            // 遍历到日志类
+            if (logClassName.equals(s.getClassName())) {
+                isEachLogClass = true;
+            }
+            // 下一个非日志类的堆栈，就是最原始被调用的方法
+            if (isEachLogClass) {
+                if(!logClassName.equals(s.getClassName())) {
+                    isEachLogClass = false;
+                    caller = s;
+                    break;
                 }
             }
+        }
+        if(caller != null) {
             top = caller.toString();
+        }else{
+            top = "";
         }
     }
     public static String read (String filepath) {
@@ -118,15 +117,15 @@ public class LogImpl {
             try {
                 InputStreamReader inputStreamReader = new InputStreamReader(new FileInputStream(file),enCode);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                StringBuffer sb = new StringBuffer();
+                StringBuilder str = new StringBuilder();
                 String content = "";
                 while ((content = bufferedReader.readLine()) != null) {
                     content += '\n';
-                    sb.append(content);
+                    str.append(content);
                 }
                 bufferedReader.close();
                 inputStreamReader.close();
-                return sb.toString();
+                return str.toString();
             }
             catch (Exception e) {
                 System.out.println("读取文件内容出错");

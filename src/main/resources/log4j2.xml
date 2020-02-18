@@ -97,9 +97,11 @@
     <Loggers>
         <!--自定义的logger-->
         <!--name为自定义logger使用的路径,additivity表示自定义logger是否继承父类-->
-        <Logger name="org.springframework" level="info" additivity="false">
-            <AppenderRef ref="Console"/>
-        </Logger>
+        <Logger name="org.hibernate.validator" level="warn" additivity="false"/>
+        <Logger name="org.springframework" level="warn" additivity="false"/>
+        <Logger name="org.mongodb.driver" level="warn" additivity="false"/>
+        <Logger name="org.apache" level="warn" additivity="false"/>
+        <Logger name="org.mongodb.driver.cluster" level="warn" additivity="false"/>
         <!--配置root logger-->
         <Root level="trace">
             <Appender-Ref ref="Console"/>
