@@ -1,7 +1,8 @@
 package cn.edu.bjtu.eboscommand.controller;
 
 import cn.edu.bjtu.eboscommand.service.MqFactory;
-import cn.edu.bjtu.eboscommand.service.impl.LogImpl;
+import cn.edu.bjtu.eboscommand.service.impl.LogFindImpl;
+import cn.edu.bjtu.eboscommand.service.log.LogImpl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import cn.edu.bjtu.eboscommand.service.CommandService;
@@ -127,14 +128,13 @@ public class CommandController {
 
     @CrossOrigin
     @PutMapping("/logtest")
-    public String logtest(@RequestBody String log){
-        LogImpl.warn("log");
+    public String logtest1(){
+        LogImpl.info("log");
         return "成功";
     }
-
     @CrossOrigin
     @GetMapping("/logtest")
-    public String logtest(){
-        return LogImpl.read("E:\\IdeaProjects\\ebos-command\\logs\\edgeLog-ALL.log");
+    public String logtest2(){
+        return LogFindImpl.readAll();
     }
 }

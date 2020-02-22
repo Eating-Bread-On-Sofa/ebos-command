@@ -31,65 +31,18 @@
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] [%-5level] %c{36}:%L --- %m%n" />
         </Console>
 
-        <!--输出为循环日志文件-->
-
-        <!--正常信息记录-->
-        <RollingRandomAccessFile name="INFO" fileName="logs/${FILE_NAME}.log" filePattern="logs/${FILE_NAME}_%d{yyyy-MM-dd}_%i.log">
+        <!--输出到mongodb数据库-->
+        <NoSql name="databaseAppender" bufferSize="10">
             <Filters>
-                <ThresholdFilter level="WARN" onMatch="DENY" onMismatch="NEUTRAL"/>
-                <ThresholdFilter level="TRACE" onMatch="ACCEPT" onMismatch="DENY"/>
+                <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
             </Filters>
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] [%-5level] %c{36}:%L --- %m%n"/>
-            <Policies>
-                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
-                <SizeBasedTriggeringPolicy size="10MB"/>
-            </Policies>
-            <DefaultRolloverStrategy max="20"/>
-        </RollingRandomAccessFile>
-
-        <!--错误信息记录-->
-        <RollingRandomAccessFile name="ERROR" fileName="logs/${FILE_NAME}-ERROR.log" filePattern="logs/${FILE_NAME}-ERROR_%d{yyyy-MM-dd}_%i.log">
-            <Filters>
-                <ThresholdFilter level="FATAL" onMatch="DENY" onMismatch="NEUTRAL"/>
-                <ThresholdFilter level="WARN" onMatch="ACCEPT" onMismatch="DENY"/>
-            </Filters>
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] [%-5level] %c{36}:%L --- %m%n"/>
-            <Policies>
-                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
-                <SizeBasedTriggeringPolicy size="10MB"/>
-            </Policies>
-            <DefaultRolloverStrategy max="20"/>
-        </RollingRandomAccessFile>
-
-        <!--系统级别的错误信息-->
-        <RollingRandomAccessFile name="FATAL" fileName="logs/${FILE_NAME}-FATAL.log" filePattern="logs/${FILE_NAME}-FATAL_%d{yyyy-MM-dd}_%i.log">
-            <Filters>
-                <ThresholdFilter level="FATAL" onMatch="ACCEPT" onMismatch="DENY"/>
-            </Filters>
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] [%-5level] %c{36}:%L --- %m%n"/>
-            <Policies>
-                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
-                <SizeBasedTriggeringPolicy size="10MB"/>
-            </Policies>
-            <DefaultRolloverStrategy max="20"/>
-        </RollingRandomAccessFile>
-
-        <!--全部日志信息-->
-        <RollingRandomAccessFile name="ALL" fileName="logs/${FILE_NAME}-ALL.log" filePattern="logs/${FILE_NAME}-ALL_%d{yyyy-MM-dd}_%i.log">
-            <Filters>
-                <ThresholdFilter level="trace" onMatch="ACCEPT" onMismatch="DENY"/>
-            </Filters>
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] [%-5level] %c{36}:%L --- %m%n"/>
-            <Policies>
-                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
-                <SizeBasedTriggeringPolicy size="10MB"/>
-            </Policies>
-            <DefaultRolloverStrategy max="30"/>
-        </RollingRandomAccessFile>
+            <MongoDb databaseName="edge" collectionName="log4j2" server="127.0.0.1" port="27017"/>
+        </NoSql>
 
         <!--配置异步写日志-->
         <Async name="Async">
-            <AppenderRef ref="ALL"/>
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="databaseAppender"/>
         </Async>
 
     </Appenders>
@@ -97,18 +50,13 @@
     <Loggers>
         <!--自定义的logger-->
         <!--name为自定义logger使用的路径,additivity表示自定义logger是否继承父类-->
-        <Logger name="org.hibernate.validator" level="warn" additivity="false"/>
-        <Logger name="org.springframework" level="warn" additivity="false"/>
-        <Logger name="org.mongodb.driver" level="warn" additivity="false"/>
-        <Logger name="org.apache" level="warn" additivity="false"/>
-        <Logger name="org.mongodb.driver.cluster" level="warn" additivity="false"/>
+        <Logger name="cn.edu.bjtu.eboscommand.service.log" level="debug" additivity="false">
+            <Appender-Ref ref="databaseAppender"/>
+        </Logger>
+        <Logger name="org.springframework" level="info" additivity="false"/>
         <!--配置root logger-->
-        <Root level="trace">
+        <Root level="debug">
             <Appender-Ref ref="Console"/>
-            <Appender-Ref ref="INFO"/>
-            <Appender-Ref ref="ERROR"/>
-            <Appender-Ref ref="FATAL"/>
-            <Appender-Ref ref="ALL"/>
         </Root>
     </Loggers>
 
