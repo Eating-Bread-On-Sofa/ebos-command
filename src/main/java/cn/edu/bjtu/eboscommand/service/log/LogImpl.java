@@ -1,33 +1,45 @@
 package cn.edu.bjtu.eboscommand.service.log;
 
+import cn.edu.bjtu.eboscommand.service.Log;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-public class LogImpl {
-    private static final Logger log = LogManager.getLogger("cn.edu.bjtu.eboscommand.service.log");
-    public static void debug(String message) {
-            log.debug(message);
+@Service
+public class LogImpl implements Log {
+    @Autowired
+    private static final Logger logger = LogManager.getLogger("cn.edu.bjtu.eboscommand.service.log");
+    @Override
+    public void debug(String message) {
+        logger.debug(message);
     }
-    public static void debug(String message, Exception e) {
-            log.debug(message, e);
+    @Override
+    public void debug(String message, Exception e) {
+        logger.debug(message, e);
     }
-    public static void info(String message) {
-            log.info(message);
+    @Override
+    public void info(String message) {
+        logger.info(message);
     }
-    public static void info(String message, Exception e) {
-            log.info(message, e);
+    @Override
+    public void info(String message, Exception e) {
+        logger.info(message, e);
     }
-    public static void warn(String message) {
-            log.warn(message);
+    @Override
+    public void warn(String message) {
+        logger.warn(message);
     }
-    public static void warn(String message, Exception e) {
-            log.warn(message, e);
+    @Override
+    public void warn(String message, Exception e) {
+        logger.warn(message, e);
     }
-    public static void error(String message) {
-            log.error(message);
+    @Override
+    public void error(String message) {
+        logger.error(message);
     }
-    public static void error(String message, Exception e) {
-            log.error(message, e);
+    @Override
+    public void error(String message, Exception e) {
+        logger.error(message, e);
     }
-
 }

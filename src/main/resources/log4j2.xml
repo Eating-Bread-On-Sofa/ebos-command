@@ -32,7 +32,7 @@
         </Console>
 
         <!--输出到mongodb数据库-->
-        <NoSql name="databaseAppender" bufferSize="10">
+        <NoSql name="databaseAppender" bufferSize="1">
             <Filters>
                 <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
             </Filters>

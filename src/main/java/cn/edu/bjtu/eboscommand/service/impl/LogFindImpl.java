@@ -1,5 +1,6 @@
 package cn.edu.bjtu.eboscommand.service.impl;
 
+import cn.edu.bjtu.eboscommand.service.LogFind;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
@@ -7,11 +8,14 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
+import org.springframework.stereotype.Service;
 
-public class LogFindImpl {
+@Service
+public class LogFindImpl implements LogFind {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" , timezone = "GMT+8")
-    public static String str= "" ;
-    public static String read(String key,String value){
+    private static String str= "" ;
+    @Override
+    public String read(String key,String value){
         String str1 ;
         MongoClient client = new MongoClient("127.0.0.1");
         MongoDatabase edge = client.getDatabase("edge");
@@ -22,10 +26,12 @@ public class LogFindImpl {
             str1 =document.getDate("date") +"    [" +document.getString("level") +"]    " + document.getString("message") + "\n";
             str += str1;
         }
+        str = str.substring(0,str.length()-1);
         client.close();
         return str;
     }
-    public static String readAll(){
+    @Override
+    public String readAll(){
         String str2;
         MongoClient client = new MongoClient("127.0.0.1");
         MongoDatabase edge = client.getDatabase("edge");
@@ -36,6 +42,7 @@ public class LogFindImpl {
             str += str2;
         }
         client.close();
+        str = str.substring(0,str.length()-1);
         return str;
     }
 }
