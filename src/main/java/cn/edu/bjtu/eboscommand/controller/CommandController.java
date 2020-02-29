@@ -1,10 +1,7 @@
 package cn.edu.bjtu.eboscommand.controller;
 
-import cn.edu.bjtu.eboscommand.service.Log;
-import cn.edu.bjtu.eboscommand.service.LogFind;
+import cn.edu.bjtu.eboscommand.service.LogService;
 import cn.edu.bjtu.eboscommand.service.MqFactory;
-import cn.edu.bjtu.eboscommand.service.impl.LogFindImpl;
-import cn.edu.bjtu.eboscommand.service.log.LogImpl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import cn.edu.bjtu.eboscommand.service.CommandService;
@@ -24,10 +21,7 @@ public class CommandController {
     @Autowired
     MqFactory mqFactory;
     @Autowired
-    Log log = new LogImpl();
-    @Autowired
-    LogFind logFind = new LogFindImpl();
-    @Value("${server.edgex}")
+    LogService logService;
     private String ip;
 
     @CrossOrigin
@@ -135,12 +129,12 @@ public class CommandController {
     @CrossOrigin
     @RequestMapping ("/logtest")
     public String logtest1(){
-        log.info("test");
+        logService.info("command");
         return "成功";
     }
     @CrossOrigin
     @GetMapping("/logtest")
     public String logtest2(){
-        return logFind.read("level","INFO");
+        return logService.findLogByCategory("info");
     }
 }
