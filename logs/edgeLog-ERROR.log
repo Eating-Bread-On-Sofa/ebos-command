@@ -1,0 +1,2 @@
+12:38:51.356 [http-nio-8082-exec-1] [WARN ] cn.edu.bjtu.eboscommand.service.impl.LogImpl:50 --- cn.edu.bjtu.eboscommand.controller.CommandController.logtest(CommandController.java:131)-log
+12:43:24.805 [http-nio-8082-exec-2] [WARN ] cn.edu.bjtu.eboscommand.service.impl.LogImpl:50 --- cn.edu.bjtu.eboscommand.controller.CommandController.logtest(CommandController.java:131)-this is a test log？
