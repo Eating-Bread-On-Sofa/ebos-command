@@ -74,6 +74,7 @@ public class CommandServiceImpl implements CommandService {
                     JSONObject err = new JSONObject();
                     err.put("name",command.getString("name"));
                     err.put("alert","失败！");
+                    err.put("exception",e.toString());
                     mqProducer.publish("command.result",err.toString());
                 }
                 break;

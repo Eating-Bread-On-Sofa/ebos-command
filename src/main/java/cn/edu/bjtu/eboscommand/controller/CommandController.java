@@ -63,8 +63,10 @@ public class CommandController {
     @CrossOrigin
     @PostMapping("/recover")
     public String plus(@RequestBody JSONArray jsonArray){
-        commandService.plusCommand(jsonArray);
-        return "已收到恢复请求";
+        try {
+            commandService.plusCommand(jsonArray);
+            return "command已恢复";
+        }catch (Exception e){ return e.toString();}
     }
 
     @CrossOrigin
