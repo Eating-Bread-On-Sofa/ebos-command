@@ -97,14 +97,14 @@ public class CommandController {
     }
 
     @CrossOrigin
-    @RequestMapping ("/logtest")
-    public String logtest1(){
-        logService.info("command");
-        return "成功";
-    }
-    @CrossOrigin
-    @GetMapping("/logtest")
-    public String logtest2(){
+    @GetMapping("/log/info")
+    public String getLogInfo(){
         return logService.findLogByCategory("info");
+    }
+
+    @CrossOrigin
+    @GetMapping("/log")
+    public String getLog(){
+        return logService.findAll();
     }
 }
