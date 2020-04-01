@@ -54,8 +54,10 @@ public class CommandController {
     public String add(@RequestBody JSONObject info){
         boolean flag = commandService.addCommand(info);
         if(flag){
+            logService.info("添加新指令"+info.getString("name"));
             return "添加成功！";
         }else {
+            logService.warn("添加指令失败");
             return "添加失败！";
         }
     }
@@ -65,14 +67,18 @@ public class CommandController {
     public String plus(@RequestBody JSONArray jsonArray){
         try {
             commandService.plusCommand(jsonArray);
+            logService.info("command已成功恢复以下数据"+jsonArray.toString());
             return "command已恢复";
-        }catch (Exception e){ return e.toString();}
+        }catch (Exception e){
+            logService.error(e.toString());
+            return e.toString();}
     }
 
     @CrossOrigin
     @DeleteMapping()
     public boolean delete(@RequestParam String name){
         boolean flag = commandService.deleteCommand(name);
+        logService.info("删除了"+name+"指令");
         return flag;
     }
 
@@ -96,15 +102,5 @@ public class CommandController {
         return "pong";
     }
 
-    @CrossOrigin
-    @GetMapping("/log/info")
-    public String getLogInfo(){
-        return logService.findLogByCategory("info");
-    }
-
-    @CrossOrigin
-    @GetMapping("/log")
-    public String getLog(){
-        return logService.findAll();
     }
 }
