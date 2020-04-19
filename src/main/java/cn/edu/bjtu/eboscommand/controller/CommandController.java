@@ -5,11 +5,14 @@ import cn.edu.bjtu.eboscommand.service.MqFactory;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import cn.edu.bjtu.eboscommand.service.CommandService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+@Api(tags = "指令管理")
 @RequestMapping("/api/command")
 @RestController
 public class CommandController {
@@ -24,6 +27,7 @@ public class CommandController {
     @Value("${server.edgex}")
     private String ip;
 
+    @ApiOperation(value = "查看所属网关设备所支持的指令",notes = "用于创建指令期间要选择设备及相关资源时，填充下拉菜单")
     @CrossOrigin
     @GetMapping("/list")
     public JSONArray checkCommand(){
@@ -86,14 +90,6 @@ public class CommandController {
     @GetMapping()
     public JSONArray show(){
         return commandService.showAll();
-    }
-
-    @CrossOrigin
-    @GetMapping("/{name}")
-    public void sendTest(@PathVariable String name){
-        JSONObject jsonCommand = new JSONObject();
-        jsonCommand.put("name",name);
-        mqFactory.createProducer().publish("run.command",jsonCommand.toString());
     }
 
     @CrossOrigin
