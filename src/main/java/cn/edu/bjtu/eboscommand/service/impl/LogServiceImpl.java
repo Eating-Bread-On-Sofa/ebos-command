@@ -15,7 +15,7 @@ import java.util.List;
 
 @Service
 public class LogServiceImpl implements LogService {
-    private static String serviceName = "指令";
+    private static String serviceName = "设备指令";
     @Autowired
     private MongoTemplate mongoTemplate;
     @Override
