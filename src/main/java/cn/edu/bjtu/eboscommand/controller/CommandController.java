@@ -1,5 +1,6 @@
 package cn.edu.bjtu.eboscommand.controller;
 
+import cn.edu.bjtu.eboscommand.entity.Command;
 import cn.edu.bjtu.eboscommand.service.LogService;
 import cn.edu.bjtu.eboscommand.service.MqFactory;
 import com.alibaba.fastjson.JSONArray;
@@ -11,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Api(tags = "指令管理")
 @RequestMapping("/api/command")
@@ -55,10 +59,10 @@ public class CommandController {
 
     @CrossOrigin
     @PostMapping()
-    public String add(@RequestBody JSONObject info){
+    public String add(@RequestBody Command info){
         boolean flag = commandService.addCommand(info);
         if(flag){
-            logService.info("添加新指令"+info.getString("name"));
+            logService.info("添加新指令"+info.getName());
             return "添加成功！";
         }else {
             logService.warn("添加指令失败");
@@ -68,10 +72,10 @@ public class CommandController {
 
     @CrossOrigin
     @PostMapping("/recover")
-    public String plus(@RequestBody JSONArray jsonArray){
+    public String plus(@RequestBody Command[] commands){
         try {
-            commandService.plusCommand(jsonArray);
-            logService.info("command已成功恢复以下数据"+jsonArray.toString());
+            commandService.plusCommand(commands);
+            logService.info("command已成功恢复以下数据"+ Arrays.toString(commands));
             return "command已恢复";
         }catch (Exception e){
             logService.error(e.toString());
@@ -88,7 +92,7 @@ public class CommandController {
 
     @CrossOrigin
     @GetMapping()
-    public JSONArray show(){
+    public List<Command> show(){
         return commandService.showAll();
     }
 

@@ -20,36 +20,6 @@ public class Command {
     private int level;
     private String description;
 
-    public Command(){}
-
-    public Command(JSONObject info){
-        this.name = info.getString("name");
-        this.commandId = info.getString("commandId");
-        this.commandName = info.getString("commandName");
-        this.deviceId = info.getString("deviceId");
-        this.deviceName = info.getString("deviceName");
-        this.commandType = info.getString("commandType");
-        this.jsonObject = info.getJSONObject("jsonObject");
-        this.jsonArray = info.getJSONArray("jsonArray");
-        this.level = info.getIntValue("level");
-        this.description = info.getString("description");
-    }
-
-    public JSONObject toJson(){
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("name",this.name);
-        jsonObject.put("deviceId",this.deviceId);
-        jsonObject.put("deviceName",this.deviceName);
-        jsonObject.put("commandId",this.commandId);
-        jsonObject.put("commandType", this.commandType);
-        jsonObject.put("jsonObject", this.jsonObject);
-        jsonObject.put("jsonArray",this.jsonArray);
-        jsonObject.put("commandName",this.commandName);
-        jsonObject.put("level",this.level);
-        jsonObject.put("description",this.description);
-        return jsonObject;
-    }
-
     public String getId() {
         return id;
     }

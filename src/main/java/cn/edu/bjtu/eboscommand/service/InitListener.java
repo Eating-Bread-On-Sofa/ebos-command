@@ -1,5 +1,6 @@
 package cn.edu.bjtu.eboscommand.service;
 
+import cn.edu.bjtu.eboscommand.entity.Command;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -28,15 +29,15 @@ public class InitListener implements ApplicationRunner {
             while (true) {
                 JSONObject msg = JSON.parseObject(mqConsumer.subscribe());
                 System.out.println("收到：" + msg);
-                JSONObject fullMsg = commandService.find(msg.getString("name"));
-                switch (fullMsg.getIntValue("level")) {
+                Command fullMsg = commandService.find(msg.getString("name"));
+                switch (fullMsg.getLevel()) {
                     case 1:
                         commandService.sendCommand(fullMsg);
                         break;
                     case 2:
-                        JSONArray array = fullMsg.getJSONArray("jsonArray");
+                        JSONArray array = fullMsg.getJsonArray();
                         for (int i = 0; i < array.size(); i++) {
-                            JSONObject subMsg = commandService.find(array.getJSONObject(i).getString("name"));
+                            Command subMsg = commandService.find(array.getJSONObject(i).getString("name"));
                             commandService.sendCommand(subMsg);
                         }
                         break;

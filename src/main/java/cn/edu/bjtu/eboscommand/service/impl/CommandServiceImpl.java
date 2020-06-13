@@ -2,7 +2,6 @@ package cn.edu.bjtu.eboscommand.service.impl;
 
 import cn.edu.bjtu.eboscommand.service.MqFactory;
 import cn.edu.bjtu.eboscommand.service.MqProducer;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import cn.edu.bjtu.eboscommand.dao.CommandRepository;
 import cn.edu.bjtu.eboscommand.entity.Command;
@@ -26,8 +25,7 @@ public class CommandServiceImpl implements CommandService {
     private String ip;
 
     @Override
-    public boolean addCommand(JSONObject info){
-        Command command = new Command(info);
+    public boolean addCommand(Command command){
         Command findCommand = commandRepository.findByName(command.getName());
         if(findCommand == null){
             commandRepository.save(command);
@@ -48,46 +46,41 @@ public class CommandServiceImpl implements CommandService {
     }
 
     @Override
-    public JSONArray showAll(){
-        JSONArray all = new JSONArray();
-        List<Command> allCommands = commandRepository.findAll();
-        allCommands.forEach(command -> all.add(command.toJson()));
-        return all;
+    public List<Command> showAll(){
+        return commandRepository.findAll();
     }
 
     @Override
-    public JSONObject find(String name){
-        Command find = commandRepository.findByName(name);
-        return find.toJson();
+    public Command find(String name){
+        return commandRepository.findByName(name);
     }
 
     @Override
-    public void sendCommand(JSONObject command){
-        String url = "http://"+ip+":48082/api/v1/device/" + command.getString("deviceId")+ "/command/" + command.getString("commandId");
+    public void sendCommand(Command command){
+        String url = "http://"+ip+":48082/api/v1/device/" + command.getDeviceId()+ "/command/" + command.getCommandId();
         MqProducer mqProducer = mqFactory.createProducer();
-        switch (command.getString("commandType")){
+        switch (command.getCommandType()){
             case "get":
                 try {
                     JSONObject getObj = new JSONObject(restTemplate.getForObject(url, JSONObject.class));
                     mqProducer.publish("command.result",getObj.toString());
                 } catch (Exception e) {
                     JSONObject err = new JSONObject();
-                    err.put("name",command.getString("name"));
+                    err.put("name",command.getName());
                     err.put("alert","失败！");
                     err.put("exception",e.toString());
                     mqProducer.publish("command.result",err.toString());
                 }
                 break;
             case "put":
-                restTemplate.put(url,command.getJSONObject("jsonObject"), String.class);
+                restTemplate.put(url,command.getJsonObject(), String.class);
                 break;
         }
     }
 
     @Override
-    public void plusCommand(JSONArray jsonArray){
-        for (int i = 0; i<jsonArray.size();i++) {
-            Command command = new Command(jsonArray.getJSONObject(i));
+    public void plusCommand(Command[] commands){
+        for (Command command:commands) {
             Command findCommand = commandRepository.findByName(command.getName());
             if(findCommand != null){
                 commandRepository.delete(findCommand);
