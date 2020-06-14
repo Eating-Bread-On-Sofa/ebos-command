@@ -1,9 +1,10 @@
 package cn.edu.bjtu.eboscommand.service;
 
-import com.alibaba.fastjson.JSONArray;
+import cn.edu.bjtu.eboscommand.entity.Log;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public interface LogService {
@@ -17,22 +18,22 @@ public interface LogService {
 
     void write(String category,String operation,String message);
 
-    JSONArray findAll();
+    List<Log> findAll();
 
-    JSONArray find(Date startDate, Date endDate, String source, String category, String operation);
+    List<Log> find(Date startDate, Date endDate, String source, String category, String operation);
 
-    JSONArray findLogByCategory(String category);
+    List<Log> findLogByCategory(String category);
 
-    JSONArray findLogBySource(String source);
+    List<Log> findLogBySource(String source);
 
-    JSONArray findLogByOperation(String operation);
+    List<Log> findLogByOperation(String operation);
 
-    JSONArray findLogByDate(Date startDate, Date endDate);
+    List<Log> findLogByDate(Date startDate, Date endDate);
 
-    JSONArray findLogBySourceAndDate(Date startDate, Date endDate,String source);
+    List<Log> findLogBySourceAndDate(Date startDate, Date endDate,String source);
 
-    JSONArray findLogBySourceAndCategory(String source, String category);
+    List<Log> findLogBySourceAndCategory(String source, String category);
 
-    JSONArray findLogBySourceAndOperation(String source, String operation);
+    List<Log> findLogBySourceAndOperation(String source, String operation);
 
 }
