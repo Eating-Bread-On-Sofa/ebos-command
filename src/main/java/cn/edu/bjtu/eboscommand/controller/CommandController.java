@@ -65,10 +65,10 @@ public class CommandController {
     public String add(@RequestBody Command info){
         boolean flag = commandService.addCommand(info);
         if(flag){
-            logService.info("添加新指令"+info.getName());
+            logService.info(null,"添加新指令"+info.getName());
             return "添加成功！";
         }else {
-            logService.warn("添加指令失败");
+            logService.warn(null,"添加指令失败");
             return "添加失败！";
         }
     }
@@ -79,10 +79,10 @@ public class CommandController {
     public String plus(@RequestBody Command[] commands){
         try {
             commandService.plusCommand(commands);
-            logService.info("command已成功恢复以下数据"+ Arrays.toString(commands));
+            logService.info(null,"command已成功恢复以下数据"+ Arrays.toString(commands));
             return "command已恢复";
         }catch (Exception e){
-            logService.error(e.toString());
+            logService.error(null,e.toString());
             return e.toString();}
     }
 
@@ -91,7 +91,7 @@ public class CommandController {
     @DeleteMapping()
     public boolean delete(@RequestParam String name){
         boolean flag = commandService.deleteCommand(name);
-        logService.info("尝试删除"+name+"指令："+flag);
+        logService.info(null,"尝试删除"+name+"指令："+flag);
         return flag;
     }
 
