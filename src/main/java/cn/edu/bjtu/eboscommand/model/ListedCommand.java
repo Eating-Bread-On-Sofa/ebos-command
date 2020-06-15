@@ -1,4 +1,4 @@
-package cn.edu.bjtu.eboscommand.entity;
+package cn.edu.bjtu.eboscommand.model;
 
 public class ListedCommand {
 

@@ -1,7 +1,7 @@
 package cn.edu.bjtu.eboscommand.controller;
 
 import cn.edu.bjtu.eboscommand.entity.Command;
-import cn.edu.bjtu.eboscommand.entity.ListedCommand;
+import cn.edu.bjtu.eboscommand.model.ListedCommand;
 import cn.edu.bjtu.eboscommand.service.LogService;
 import cn.edu.bjtu.eboscommand.service.MqFactory;
 import com.alibaba.fastjson.JSONArray;
