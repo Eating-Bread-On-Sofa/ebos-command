@@ -40,6 +40,10 @@ public class CommandController {
         String allUrl = "http://"+ip+":48082/api/v1/device";
         List<ListedCommand> listedCommands = new LinkedList<>();
         JSONArray all = new JSONArray(restTemplate.getForObject(allUrl,JSONArray.class));
+        if(all.isEmpty()){
+            listedCommands.add(new ListedCommand());
+            return listedCommands;
+        }
         for(int i = 0; i<all.size();i++) {
             JSONObject deviceObj = all.getJSONObject(i);
             String deviceId = deviceObj.getString("id");
