@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.io.Serializable;
 import java.util.Date;
 
-@Document(collection = "log")
+@Document(collection = "gatewayLog")
 public class Log implements Serializable {
     @Id
     private String id;
