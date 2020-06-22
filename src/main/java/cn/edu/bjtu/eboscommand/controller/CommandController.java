@@ -87,7 +87,7 @@ public class CommandController {
             return "command已恢复";
         }catch (Exception e){
             logService.error(null,e.toString());
-            return e.toString();}
+            return "失败";}
     }
 
     @ApiOperation(value = "向所属网关删除指令")
