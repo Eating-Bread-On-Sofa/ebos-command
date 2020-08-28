@@ -9,7 +9,6 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.Iterator;
 
-
 public class KafkaConsumerImpl implements MqConsumer {
     private KafkaConsumer kafkaConsumer;
 

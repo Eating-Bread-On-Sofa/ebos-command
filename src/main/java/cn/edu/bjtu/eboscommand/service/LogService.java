@@ -35,5 +35,4 @@ public interface LogService {
     List<Log> findLogBySourceAndCategory(String source, String category);
 
     List<Log> findLogBySourceAndOperation(String source, String operation);
-
 }

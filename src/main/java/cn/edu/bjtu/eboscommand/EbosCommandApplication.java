@@ -21,5 +21,4 @@ public class EbosCommandApplication {
         RestTemplate restTemplate = new RestTemplate(simpleClientHttpRequestFactory);
         return restTemplate;
     }
-
 }
