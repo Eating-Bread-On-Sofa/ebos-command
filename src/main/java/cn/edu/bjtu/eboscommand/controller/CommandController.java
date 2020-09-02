@@ -76,10 +76,10 @@ public class CommandController {
     public String add(@RequestBody Command info){
         boolean flag = commandService.addCommand(info);
         if(flag){
-            logService.info(null,"添加新指令"+info.getName());
+            logService.info("create","添加新指令"+info.getName());
             return "添加成功！";
         }else {
-            logService.warn(null,"添加指令失败");
+            logService.warn("create","添加指令失败");
             return "添加失败！";
         }
     }
@@ -90,10 +90,10 @@ public class CommandController {
     public String plus(@RequestBody Command[] commands){
         try {
             commandService.plusCommand(commands);
-            logService.info(null,"command已成功恢复以下数据"+ Arrays.toString(commands));
+            logService.info("update","command已成功恢复以下数据"+ Arrays.toString(commands));
             return "command已恢复";
         }catch (Exception e){
-            logService.error(null,e.toString());
+            logService.error("update",e.toString());
             return "失败";}
     }
 
@@ -102,7 +102,7 @@ public class CommandController {
     @DeleteMapping()
     public boolean delete(@RequestParam String name){
         boolean flag = commandService.deleteCommand(name);
-        logService.info(null,"尝试删除"+name+"指令："+flag);
+        logService.info("delete","尝试删除"+name+"指令："+flag);
         return flag;
     }
 
@@ -122,13 +122,15 @@ public class CommandController {
                 status.add(rawSubscribe);
                 subscribeService.save(rawSubscribe.getSubTopic());
                 threadPoolExecutor.execute(rawSubscribe);
-                logService.info(null,"设备管理微服务订阅topic：" + rawSubscribe.getSubTopic());
+                logService.info("create","指令管理成功订阅主题"+ rawSubscribe.getSubTopic());
                 return "订阅成功";
             }catch (Exception e) {
                 e.printStackTrace();
+                logService.error("create","指令管理订阅主题"+rawSubscribe.getSubTopic()+"时，参数设定有误。");
                 return "参数错误!";
             }
         }else {
+            logService.error("create","运维监控已订阅主题"+rawSubscribe.getSubTopic()+",再次订阅失败");
             return "订阅主题重复";
         }
     }
@@ -152,7 +154,6 @@ public class CommandController {
         synchronized (status){
             flag = status.remove(search(subTopic));
         }
-        logService.info(null,"删除设备管理上topic为"+subTopic+"的订阅");
         return flag;
     }
 
@@ -178,6 +179,7 @@ public class CommandController {
     @CrossOrigin
     @GetMapping("/ping")
     public String ping(){
+        logService.info("retrieve","对指令管理进行了一次健康检测");
         return "pong";
     }
 
