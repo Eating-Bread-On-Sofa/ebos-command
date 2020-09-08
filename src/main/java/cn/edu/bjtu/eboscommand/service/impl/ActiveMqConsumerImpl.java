@@ -1,17 +1,21 @@
 package cn.edu.bjtu.eboscommand.service.impl;
 
+import cn.edu.bjtu.eboscommand.config.ActiveConfig;
 import cn.edu.bjtu.eboscommand.service.MqConsumer;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.command.ActiveMQBytesMessage;
 import org.apache.activemq.command.ActiveMQMapMessage;
 import org.apache.activemq.command.ActiveMQTextMessage;
 import org.apache.activemq.util.ByteSequence;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import javax.jms.*;
 
 public class ActiveMqConsumerImpl implements MqConsumer {
+
     private MessageConsumer messageConsumer;
-    private static ConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
+    private static ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(ActiveConfig.getUser(),ActiveConfig.getPassword(),ActiveConfig.getUrl());
 
     public ActiveMqConsumerImpl(String topic) {
         try {

@@ -74,6 +74,7 @@ public class CommandController {
     @CrossOrigin
     @PostMapping()
     public String add(@RequestBody Command info){
+        System.out.println(info);
         boolean flag = commandService.addCommand(info);
         if(flag){
             logService.info("create","添加新指令"+info.getName());
@@ -181,6 +182,24 @@ public class CommandController {
     public String ping(){
         logService.info("retrieve","对指令管理进行了一次健康检测");
         return "pong";
+    }
+
+    @CrossOrigin
+    @GetMapping("/test")
+    public String testhhh(){
+        JSONObject jo = new JSONObject();
+        jo.put("name","testhhh");
+        MqProducer mqProducer = mqFactory.createProducer();
+        mqProducer.publish("run.command",jo.toString());
+        return "成功";
+    }
+
+    @CrossOrigin
+    @GetMapping("/testSend")
+    public String testSSS(String name) {
+        Command command = commandService.find(name);
+        commandService.sendCommand(command);
+        return "成功";
     }
 
 }

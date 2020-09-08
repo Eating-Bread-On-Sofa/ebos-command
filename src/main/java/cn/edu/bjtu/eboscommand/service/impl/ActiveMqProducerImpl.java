@@ -1,6 +1,7 @@
 package cn.edu.bjtu.eboscommand.service.impl;
 
 import cn.edu.bjtu.eboscommand.service.MqProducer;
+import com.alibaba.fastjson.JSONObject;
 import org.apache.activemq.command.ActiveMQTopic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsMessagingTemplate;
