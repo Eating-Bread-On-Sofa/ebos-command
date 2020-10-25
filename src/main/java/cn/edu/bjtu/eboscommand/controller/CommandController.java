@@ -19,7 +19,7 @@ import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-@Api(tags = "指令管理")
+@Api(tags = "网关指令")
 @RequestMapping("/api/command")
 @RestController
 public class CommandController {
@@ -38,7 +38,7 @@ public class CommandController {
     private ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(1, 50,3, TimeUnit.SECONDS,new SynchronousQueue<>());
 
     @Value("${server.edgex}")
-    private String ip;
+    private String ip ;
 
     @ApiOperation(value = "查看所属网关设备所支持的指令",notes = "用于创建指令期间要选择设备及相关资源时，填充下拉菜单")
     @CrossOrigin
@@ -46,8 +46,8 @@ public class CommandController {
     public List<ListedCommand> checkCommand(){
         String allUrl = "http://"+ip+":48082/api/v1/device";
         List<ListedCommand> listedCommands = new LinkedList<>();
-        JSONArray all = new JSONArray(restTemplate.getForObject(allUrl,JSONArray.class));
-        if(all.isEmpty()){
+        JSONArray all = restTemplate.getForObject(allUrl,JSONArray.class);
+        if(all == null){
             listedCommands.add(new ListedCommand());
             return listedCommands;
         }

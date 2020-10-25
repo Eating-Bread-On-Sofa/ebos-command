@@ -12,14 +12,10 @@ public class ActiveConfig {
 
     private static String url;
 
-    public static String getUser() {
-        return user;
-    }
+    public static String getUser() { return user; }
 
     @Value("${spring.activemq.user}")
-    public void setUser(String user) {
-        ActiveConfig.user = user;
-    }
+    public void setUser(String user) { ActiveConfig.user = user; }
 
     public static String getPassword() {
         return password;
@@ -35,7 +31,5 @@ public class ActiveConfig {
     }
 
     @Value("${spring.activemq.broker-url}")
-    public void setUrl(String url) {
-        ActiveConfig.url = url;
-    }
+    public void setUrl(String url) { ActiveConfig.url = url; }
 }
