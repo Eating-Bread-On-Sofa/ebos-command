@@ -76,7 +76,7 @@ public class LogServiceImpl implements LogService {
 
     @Override
     public List<Log> findAll() {
-        return mongoTemplate.findAll(Log.class,"log");
+        return mongoTemplate.findAll(Log.class,"gatewayLog");
     }
 
     @Override
@@ -85,45 +85,45 @@ public class LogServiceImpl implements LogService {
             if (category.equals("all")) {
                 if (operation.equals("all")) {
                     Query query = Query.query(Criteria.where("date").gte(startDate).lte(endDate));
-                    return mongoTemplate.find(query, Log.class, "log");
+                    return mongoTemplate.find(query, Log.class, "gatewayLog");
                 } else if (operation.equals("null")) {
                     Query query = Query.query(Criteria.where("date").gte(startDate).lte(endDate).and("operation").is(null));
-                    return mongoTemplate.find(query, Log.class, "log");
+                    return mongoTemplate.find(query, Log.class, "gatewayLog");
                 } else {
                     Query query1 = Query.query(Criteria.where("date").gte(startDate).lte(endDate).and("operation").is(operation));
-                    List<Log> list1 = mongoTemplate.find(query1, Log.class, "log");
+                    List<Log> list1 = mongoTemplate.find(query1, Log.class, "gatewayLog");
                     Query query2 = Query.query(Criteria.where("date").gte(startDate).lte(endDate).and("operation").is(null));
-                    List<Log> list = mongoTemplate.find(query2, Log.class, "log");
+                    List<Log> list = mongoTemplate.find(query2, Log.class, "gatewayLog");
                     list.addAll(list1);
                     return list;
                 }
             } else if (category.equals("null")) {
                 if (operation.equals("all")) {
                     Query query = Query.query(Criteria.where("date").gte(startDate).lte(endDate).and("category").is(null));
-                    return mongoTemplate.find(query, Log.class, "log");
+                    return mongoTemplate.find(query, Log.class, "gatewayLog");
                 } else if (operation.equals("null")) {
                     Query query = Query.query(Criteria.where("date").gte(startDate).lte(endDate).and("category").is(null).and("operation").is(null));
-                    return mongoTemplate.find(query, Log.class, "log");
+                    return mongoTemplate.find(query, Log.class, "gatewayLog");
                 } else {
                     Query query = Query.query(Criteria.where("date").gte(startDate).lte(endDate).and("operation").is(operation));
-                    return mongoTemplate.find(query, Log.class, "log");
+                    return mongoTemplate.find(query, Log.class, "gatewayLog");
                 }
             }else{
                 if (operation.equals("all")) {
                     Query query1 = Query.query(Criteria.where("date").gte(startDate).lte(endDate).and("category").is(category));
-                    List<Log> list1 = mongoTemplate.find(query1, Log.class, "log");
+                    List<Log> list1 = mongoTemplate.find(query1, Log.class, "gatewayLog");
                     Query query2 = Query.query(Criteria.where("date").gte(startDate).lte(endDate).and("category").is(null));
-                    List<Log> list = mongoTemplate.find(query2, Log.class, "log");
+                    List<Log> list = mongoTemplate.find(query2, Log.class, "gatewayLog");
                     list.addAll(list1);
                     return list;
                 } else if (operation.equals("null")) {
                     Query query = Query.query(Criteria.where("date").gte(startDate).lte(endDate).and("category").is(category));
-                    return mongoTemplate.find(query, Log.class, "log");
+                    return mongoTemplate.find(query, Log.class, "gatewayLog");
                 } else {
                     Query query1 = Query.query(Criteria.where("date").gte(startDate).lte(endDate).and("operation").is(operation));
-                    List<Log> list1 = mongoTemplate.find(query1, Log.class, "log");
+                    List<Log> list1 = mongoTemplate.find(query1, Log.class, "gatewayLog");
                     Query query2 = Query.query(Criteria.where("date").gte(startDate).lte(endDate).and("category").is(category));
-                    List<Log> list = mongoTemplate.find(query2, Log.class, "log");
+                    List<Log> list = mongoTemplate.find(query2, Log.class, "gatewayLog");
                     list.addAll(list1);
                     return list;
                 }
@@ -132,45 +132,45 @@ public class LogServiceImpl implements LogService {
             if (category.equals("all")) {
                 if (operation.equals("all")) {
                     Query query = Query.query(Criteria.where("date").gte(startDate).lte(endDate).and("source").is(source));
-                    return mongoTemplate.find(query, Log.class, "log");
+                    return mongoTemplate.find(query, Log.class, "gatewayLog");
                 } else if (operation.equals("null")) {
                     Query query = Query.query(Criteria.where("date").gte(startDate).lte(endDate).and("source").is(source).and("operation").is(null));
-                    return mongoTemplate.find(query, Log.class, "log");
+                    return mongoTemplate.find(query, Log.class, "gatewayLog");
                 } else {
                     Query query1 = Query.query(Criteria.where("date").gte(startDate).lte(endDate).and("source").is(source).and("operation").is(operation));
-                    List<Log> list1 = mongoTemplate.find(query1, Log.class, "log");
+                    List<Log> list1 = mongoTemplate.find(query1, Log.class, "gatewayLog");
                     Query query2 = Query.query(Criteria.where("date").gte(startDate).lte(endDate).and("source").is(source).and("operation").is(null));
-                    List<Log> list = mongoTemplate.find(query2, Log.class, "log");
+                    List<Log> list = mongoTemplate.find(query2, Log.class, "gatewayLog");
                     list.addAll(list1);
                     return list;
                 }
             } else if (category.equals("null")) {
                 if (operation.equals("all")) {
                     Query query = Query.query(Criteria.where("date").gte(startDate).lte(endDate).and("source").is(source).and("category").is(null));
-                    return mongoTemplate.find(query, Log.class, "log");
+                    return mongoTemplate.find(query, Log.class, "gatewayLog");
                 } else if (operation.equals("null")) {
                     Query query = Query.query(Criteria.where("date").gte(startDate).lte(endDate).and("source").is(source).and("category").is(null).and("operation").is(null));
-                    return mongoTemplate.find(query, Log.class, "log");
+                    return mongoTemplate.find(query, Log.class, "gatewayLog");
                 } else {
                     Query query = Query.query(Criteria.where("date").gte(startDate).lte(endDate).and("source").is(source).and("operation").is(operation));
-                    return mongoTemplate.find(query, Log.class, "log");
+                    return mongoTemplate.find(query, Log.class, "gatewayLog");
                 }
             }else{
                 if (operation.equals("all")) {
                     Query query1 = Query.query(Criteria.where("date").gte(startDate).lte(endDate).and("source").is(source).and("category").is(category));
-                    List<Log> list1 = mongoTemplate.find(query1, Log.class, "log");
+                    List<Log> list1 = mongoTemplate.find(query1, Log.class, "gatewayLog");
                     Query query2 = Query.query(Criteria.where("date").gte(startDate).lte(endDate).and("source").is(source).and("category").is(null));
-                    List<Log> list = mongoTemplate.find(query2, Log.class, "log");
+                    List<Log> list = mongoTemplate.find(query2, Log.class, "gatewayLog");
                     list.addAll(list1);
                     return list;
                 } else if (operation.equals("null")) {
                     Query query = Query.query(Criteria.where("date").gte(startDate).lte(endDate).and("source").is(source).and("category").is(category));
-                    return mongoTemplate.find(query, Log.class, "log");
+                    return mongoTemplate.find(query, Log.class, "gatewayLog");
                 } else {
                     Query query1 = Query.query(Criteria.where("date").gte(startDate).lte(endDate).and("source").is(source).and("operation").is(operation));
-                    List<Log> list1 = mongoTemplate.find(query1, Log.class, "log");
+                    List<Log> list1 = mongoTemplate.find(query1, Log.class, "gatewayLog");
                     Query query2 = Query.query(Criteria.where("date").gte(startDate).lte(endDate).and("source").is(source).and("category").is(category));
-                    List<Log> list = mongoTemplate.find(query2, Log.class, "log");
+                    List<Log> list = mongoTemplate.find(query2, Log.class, "gatewayLog");
                     list.addAll(list1);
                     return list;
                 }
@@ -187,37 +187,37 @@ public class LogServiceImpl implements LogService {
     @Override
     public List<Log> findLogBySource(String source){
         Query query = Query.query(Criteria.where("source").is(source));
-        return mongoTemplate.find(query,Log.class,"log");
+        return mongoTemplate.find(query,Log.class,"gatewayLog");
     }
 
     @Override
     public List<Log> findLogByOperation(String operation) {
         Query query = Query.query(Criteria.where("operation").is(operation));
-        return mongoTemplate.find(query , Log.class,"log");
+        return mongoTemplate.find(query , Log.class,"gatewayLog");
     }
 
     @Override
     public List<Log> findLogByDate(Date startDate, Date endDate) {
         Query query = Query.query(Criteria.where("date").gte(startDate).lte(endDate));
-        return mongoTemplate.find(query , Log.class,"log");
+        return mongoTemplate.find(query , Log.class,"gatewayLog");
     }
 
     @Override
     public List<Log> findLogBySourceAndDate(Date startDate, Date endDate, String source) {
         Query query = Query.query(Criteria.where("date").gte(startDate).lte(endDate).and("source").is(source));
-        return mongoTemplate.find(query , Log.class,"log");
+        return mongoTemplate.find(query , Log.class,"gatewayLog");
     }
 
     @Override
     public List<Log> findLogBySourceAndCategory(String source, String category){
         Query query = Query.query(Criteria.where("source").is(source).and("category").is(category));
-        return mongoTemplate.find(query , Log.class,"log");
+        return mongoTemplate.find(query , Log.class,"gatewayLog");
     }
 
     @Override
     public List<Log> findLogBySourceAndOperation(String source, String operation) {
         Query query = Query.query(Criteria.where("source").is(source).and("operation").is(operation));
-        return mongoTemplate.find(query , Log.class,"log");
+        return mongoTemplate.find(query , Log.class,"gatewayLog");
 
     }
 
