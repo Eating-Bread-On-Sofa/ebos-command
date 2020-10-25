@@ -1,12 +1,14 @@
 package cn.edu.bjtu.eboscommand.service;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import cn.edu.bjtu.eboscommand.entity.Command;
+
+import java.util.List;
 
 public interface CommandService {
-    boolean addCommand(JSONObject info);
+    boolean addCommand(Command command);
+    void plusCommand(Command[] commands);
     boolean deleteCommand(String name);
-    JSONArray showAll();
-    JSONObject find(String name);
-    void sendCommand(JSONObject command);
+    List<Command> showAll();
+    Command find(String name);
+    void sendCommand(Command command);
 }
