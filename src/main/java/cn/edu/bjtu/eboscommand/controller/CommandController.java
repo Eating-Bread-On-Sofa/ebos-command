@@ -180,7 +180,6 @@ public class CommandController {
     @CrossOrigin
     @GetMapping("/ping")
     public String ping(){
-        logService.info("retrieve","对指令管理进行了一次健康检测");
         return "pong";
     }
 

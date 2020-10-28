@@ -24,7 +24,7 @@ public class InitListener implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments arguments) {
         new Thread(() -> {
-            MqConsumer mqConsumer = mqFactory.createConsumer("run .command");
+            MqConsumer mqConsumer = mqFactory.createConsumer("run.command");
 
             while (true) {
                 try{
