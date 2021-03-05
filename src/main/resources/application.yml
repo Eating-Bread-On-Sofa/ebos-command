@@ -24,3 +24,4 @@ server:
   edgex: localhost
   port: 8082
 mq: activemq
+docker: localhost

@@ -21,7 +21,7 @@ public class CommandServiceImpl implements CommandService {
     RestTemplate restTemplate;
     @Autowired
     MqFactory mqFactory;
-    @Value("${server.edgex}")
+    @Value("${docker}")
     private String ip;
 
     @Override
